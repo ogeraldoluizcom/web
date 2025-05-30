@@ -64,6 +64,5 @@ jobs:
         with:
           namespace: ${{ inputs.K8S_NAMESPACE }}
           manifests: |
-            k8s/web/${{ inputs.environment-name }}-k8s.yaml
-
+            k8s-repo/k8s/web/${{ inputs.environment-name }}-k8s.yaml
           images: geraldobl58/web:v${{ github.run_number }}
