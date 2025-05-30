@@ -62,4 +62,4 @@ jobs:
           manifests: |
             k8s/web/${{ inputs.environment-name }}-k8s.yaml
 
-          images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+          images: geraldobl58/web:v${{ github.run_number }}
