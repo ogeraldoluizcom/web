@@ -39,14 +39,14 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
 
-      - name: Clone Kubernetes Manifests Repo
-        run: |
-          git clone https://github.com/ogeraldoluizcom/k8s.git k8s
+      # - name: Clone Kubernetes Manifests Repo
+      #   run: |
+      #     git clone https://github.com/ogeraldoluizcom/k8s.git k8s
 
       - name: Update Deployment
         run: |
           # Find the appropriate environment file based on input
-          ENV_FILE="k8s/web/${{ inputs.environment-name }}-k8s.yaml"
+          ENV_FILE="k8s/${{ inputs.environment-name }}-k8s.yaml"
 
           # Update namespace in all relevant files
           sed -i 's|namespace: development|namespace: ${{ inputs.K8S_NAMESPACE }}|g' $ENV_FILE
@@ -64,5 +64,5 @@ jobs:
         with:
           namespace: ${{ inputs.K8S_NAMESPACE }}
           manifests: |
-            k8s/web/${{ inputs.environment-name }}-k8s.yaml
+            k8s/${{ inputs.environment-name }}-k8s.yaml
           images: geraldobl58/web:v${{ github.run_number }}
