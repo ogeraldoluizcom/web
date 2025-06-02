@@ -39,6 +39,10 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.K8S_KUBECONFIG }}
 
+      - name: Clone Kubernetes Manifests Repo
+        run: |
+          git clone https://github.com/ogeraldoluizcom/k8s.git k8s
+
       - name: Update Deployment
         run: |
           # Find the appropriate environment file based on input
@@ -61,5 +65,4 @@ jobs:
           namespace: ${{ inputs.K8S_NAMESPACE }}
           manifests: |
             k8s/web/${{ inputs.environment-name }}-k8s.yaml
-
-          images: geraldobl58/ogeraldoluiz:v${{ github.run_number }}
+          images: geraldobl58/web:v${{ github.run_number }}
