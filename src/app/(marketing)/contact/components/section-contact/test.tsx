@@ -1,59 +1,31 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { SectionContact } from './index'
+import { render, screen } from '@testing-library/react'
+import { SectionContact } from '.'
 
 describe('SectionContact', () => {
-  it('should render all form fields', () => {
+  it('renders the main title with subtitle and description', () => {
     render(<SectionContact />)
-
-    expect(screen.getByLabelText(/Nome/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Assunto/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Email/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Mensagem/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /enviar/i })).toBeInTheDocument()
+    expect(screen.getByText('Contato')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Entre em contato e vamos conversar sobre o seu projeto.'
+      )
+    ).toBeInTheDocument()
   })
 
-  it('should show validation errors if fields are empty', async () => {
+  it('renders the inner title with subtitle and description', () => {
     render(<SectionContact />)
-    fireEvent.click(screen.getByRole('button', { name: /enviar/i }))
-
-    await waitFor(() => {
-      expect(screen.getAllByText(/obrigatório/i).length).toBeGreaterThan(0)
-    })
+    expect(screen.getByText('Bora conversar?')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        /Vamos trocar uma ideia sobre o seu projeto, tirar dúvidas ou até mesmo tomar um café virtual. Estou aqui para ajudar!/i
+      )
+    ).toBeInTheDocument()
   })
 
-  it('should submit the form with valid data', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
-
+  it('renders the SectionAnimation component', () => {
     render(<SectionContact />)
-
-    fireEvent.change(screen.getByPlaceholderText(/Seu Nome/i), {
-      target: { value: 'John Doe' }
-    })
-    fireEvent.change(screen.getByPlaceholderText(/Assunto/i), {
-      target: { value: 'Teste' }
-    })
-    fireEvent.change(screen.getByPlaceholderText(/Seu e-mail/i), {
-      target: { value: 'john@example.com' }
-    })
-    fireEvent.change(
-      screen.getByPlaceholderText(/Escreva sua mensagem aqui/i),
-      {
-        target: { value: 'Olá, tudo bem?' }
-      }
-    )
-
-    fireEvent.click(screen.getByRole('button', { name: /enviar/i }))
-    fireEvent.click(screen.getByRole('button', { name: /limpar/i }))
-
-    await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith({
-        name: 'John Doe',
-        subject: 'Teste',
-        email: 'john@example.com',
-        body: 'Olá, tudo bem?'
-      })
-    })
-
-    consoleSpy.mockRestore()
+    expect(screen.getByText('Desenvolvendo soluções')).toBeInTheDocument()
+    // Check for SVG element
+    expect(document.querySelector('svg')).toBeInTheDocument()
   })
 })
